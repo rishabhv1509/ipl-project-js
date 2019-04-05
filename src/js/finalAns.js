@@ -1,6 +1,7 @@
 import * as convert from './csvToJson'
 let matchData=convert.change_format('../../csv_data/matches.csv');
 let deliveriesData=convert.change_format('../../csv_data/deliveries.csv');
+const fs = require('fs');
 
 const numberOfMatchesPlayedPerYear=(matchData)=>{
     let numberOfMatchesPerYear=[];
@@ -16,7 +17,9 @@ const numberOfMatchesPlayedPerYear=(matchData)=>{
 return numberOfMatchesPerYear
 }
 
-console.log(numberOfMatchesPlayedPerYear(matchData));
+let answer1=numberOfMatchesPlayedPerYear(matchData);
+let numberOfMatchesPlayedPerYearJSON = JSON.stringify(answer1, null, 2);
+fs.writeFileSync('../../json_files/matchesPerYear.json',numberOfMatchesPlayedPerYearJSON);
 
 const totalMatchesWonPerTeamPerYear=(matchData)=>{
     let matchesWonPerTeam=[]
@@ -41,7 +44,9 @@ const totalMatchesWonPerTeamPerYear=(matchData)=>{
 return matchesWonPerTeam
 }
 
-console.log(totalMatchesWonPerTeamPerYear(matchData))
+let answer2=totalMatchesWonPerTeamPerYear(matchData)
+let totalMatchesWonJSON = JSON.stringify(answer2, null, 2);
+fs.writeFileSync('../../json_files/totalMatchesWon.json',totalMatchesWonJSON);
 
 const extraRunsPerTeam=(matchData,deliveryData)=>{
     let matchId = matchData.reduce((matches,index) => {
@@ -64,7 +69,8 @@ const extraRunsPerTeam=(matchData,deliveryData)=>{
     },{})
 }
 let extraRuns = extraRunsPerTeam(matchData,deliveriesData);
-console.log(extraRuns)
+let extraRunsJSON = JSON.stringify(extraRuns, null, 2);
+fs.writeFileSync('../../json_files/extraRuns.json',extraRunsJSON);
 
 const economicBowlers=(matchData,deliveryData)=>{
     let matchId = matchData.reduce((matches,index) => {
@@ -105,4 +111,5 @@ const economicBowlers=(matchData,deliveryData)=>{
 }
 
 let ecoBowlerData = economicBowlers(matchData,deliveriesData);
-console.log(ecoBowlerData)
+let ecoBowlersJSON = JSON.stringify(ecoBowlerData, null, 2);
+fs.writeFileSync('../../json_files/ecoBowlers.json',ecoBowlersJSON);

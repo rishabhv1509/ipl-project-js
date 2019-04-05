@@ -8,6 +8,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var matchData = convert.change_format('../../csv_data/matches.csv');
 var deliveriesData = convert.change_format('../../csv_data/deliveries.csv');
+var fs = require('fs');
 
 var numberOfMatchesPlayedPerYear = function numberOfMatchesPlayedPerYear(matchData) {
     var numberOfMatchesPerYear = [];
@@ -23,7 +24,9 @@ var numberOfMatchesPlayedPerYear = function numberOfMatchesPlayedPerYear(matchDa
     return numberOfMatchesPerYear;
 };
 
-console.log(numberOfMatchesPlayedPerYear(matchData));
+var answer1 = numberOfMatchesPlayedPerYear(matchData);
+var numberOfMatchesPlayedPerYearJSON = JSON.stringify(answer1, null, 2);
+fs.writeFileSync('../../json_files/matchesPerYear.json', numberOfMatchesPlayedPerYearJSON);
 
 var totalMatchesWonPerTeamPerYear = function totalMatchesWonPerTeamPerYear(matchData) {
     var matchesWonPerTeam = [];
@@ -48,7 +51,9 @@ var totalMatchesWonPerTeamPerYear = function totalMatchesWonPerTeamPerYear(match
     return matchesWonPerTeam;
 };
 
-console.log(totalMatchesWonPerTeamPerYear(matchData));
+var answer2 = totalMatchesWonPerTeamPerYear(matchData);
+var totalMatchesWonJSON = JSON.stringify(answer2, null, 2);
+fs.writeFileSync('../../json_files/totalMatchesWon.json', totalMatchesWonJSON);
 
 var extraRunsPerTeam = function extraRunsPerTeam(matchData, deliveryData) {
     var matchId = matchData.reduce(function (matches, index) {
@@ -71,7 +76,8 @@ var extraRunsPerTeam = function extraRunsPerTeam(matchData, deliveryData) {
     }, {});
 };
 var extraRuns = extraRunsPerTeam(matchData, deliveriesData);
-console.log(extraRuns);
+var extraRunsJSON = JSON.stringify(extraRuns, null, 2);
+fs.writeFileSync('../../json_files/extraRuns.json', extraRunsJSON);
 
 var economicBowlers = function economicBowlers(matchData, deliveryData) {
     var matchId = matchData.reduce(function (matches, index) {
@@ -116,4 +122,5 @@ var economicBowlers = function economicBowlers(matchData, deliveryData) {
 };
 
 var ecoBowlerData = economicBowlers(matchData, deliveriesData);
-console.log(ecoBowlerData);
+var ecoBowlersJSON = JSON.stringify(ecoBowlerData, null, 2);
+fs.writeFileSync('../../json_files/ecoBowlers.json', ecoBowlersJSON);
