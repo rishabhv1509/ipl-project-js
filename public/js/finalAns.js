@@ -8,6 +8,71 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var matchData = convert.change_format('../../csv_data/matches.csv');
 var deliveriesData = convert.change_format('../../csv_data/deliveries.csv');
+
+var numberOfMatchesPlayedPerYear = function numberOfMatchesPlayedPerYear(matchData) {
+    var numberOfMatchesPerYear = [];
+    numberOfMatchesPerYear = matchData.reduce(function (matches, index) {
+        if (matches.hasOwnProperty(index['season'])) {
+            matches[index['season']] += 1;
+            return matches;
+        } else {
+            matches[index['season']] = 1;
+            return matches;
+        }
+    }, {});
+    return numberOfMatchesPerYear;
+};
+
+console.log(numberOfMatchesPlayedPerYear(matchData));
+
+var totalMatchesWonPerTeamPerYear = function totalMatchesWonPerTeamPerYear(matchData) {
+    var matchesWonPerTeam = [];
+    matchesWonPerTeam = matchData.reduce(function (matches, index) {
+        if (matches.hasOwnProperty(index['season'])) {
+            if (matches[index['season']].hasOwnProperty(index['winner'])) {
+                matches[index['season']][index['winner']] += 1;
+            } else {
+                if (index['winner'] != 0) {
+                    matches[index['season']][index['winner']] = 1;
+                }
+            }
+            return matches;
+        } else {
+            matches[index['season']] = {};
+            if (index['winner'] != 0) {
+                matches[index['season']][index['winner']] = 1;
+            }
+            return matches;
+        }
+    }, {});
+    return matchesWonPerTeam;
+};
+
+console.log(totalMatchesWonPerTeamPerYear(matchData));
+
+var extraRunsPerTeam = function extraRunsPerTeam(matchData, deliveryData) {
+    var matchId = matchData.reduce(function (matches, index) {
+        if (index['season'] == 2016) {
+            matches.push(index['id']);
+        }
+        return matches;
+    }, []);
+    return deliveryData.filter(function (deliveries) {
+        if (matchId.includes(deliveries['match_id'])) {
+            return deliveries;
+        }
+    }).reduce(function (extraRuns, delivery) {
+        if (extraRuns.hasOwnProperty(delivery['bowling_team'])) {
+            extraRuns[delivery['bowling_team']] += delivery['extra_runs'];
+        } else {
+            extraRuns[delivery['bowling_team']] = delivery['extra_runs'];
+        }
+        return extraRuns;
+    }, {});
+};
+var extraRuns = extraRunsPerTeam(matchData, deliveriesData);
+console.log(extraRuns);
+
 var economicBowlers = function economicBowlers(matchData, deliveryData) {
     var matchId = matchData.reduce(function (matches, index) {
         if (index['season'] == 2015) {

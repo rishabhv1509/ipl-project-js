@@ -8,27 +8,27 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var matchData = convert.change_format('../../csv_data/matches.csv');
 var deliveriesData = convert.change_format('../../csv_data/deliveries.csv');
-function extras(matchData, deliveryData) {
-    var matchId = matchData.reduce(function (accumulator, matches) {
-        if (matches['season'] == 2016) {
-            accumulator.push(matches['id']);
+var extraRunsPerTeam = function extraRunsPerTeam(matchData, deliveryData) {
+    var matchId = matchData.reduce(function (matches, index) {
+        if (index['season'] == 2016) {
+            matches.push(index['id']);
         }
-        return accumulator;
+        return matches;
     }, []);
     return deliveryData.filter(function (deliveries) {
         if (matchId.includes(deliveries['match_id'])) {
             return deliveries;
         }
-    }).reduce(function (accumulator, delivary) {
-        if (accumulator.hasOwnProperty(delivary['bowling_team'])) {
-            accumulator[delivary['bowling_team']] += delivary['extra_runs'];
+    }).reduce(function (extraRuns, delivery) {
+        if (extraRuns.hasOwnProperty(delivery['bowling_team'])) {
+            extraRuns[delivery['bowling_team']] += delivery['extra_runs'];
         } else {
-            accumulator[delivary['bowling_team']] = delivary['extra_runs'];
+            extraRuns[delivery['bowling_team']] = delivery['extra_runs'];
         }
-        return accumulator;
+        return extraRuns;
     }, {});
-}
+};
 
-var extraRuns = extras(matchData, deliveriesData);
+var extraRuns = extraRunsPerTeam(matchData, deliveriesData);
 // console.log(matchId/)
 console.log(extraRuns);
