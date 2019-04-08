@@ -13,5 +13,12 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0"
+  },
+  "dependencies": {
+    "canvasjs": "^1.8.1",
+    "es6-promise": "^4.2.6",
+    "highcharts": "^7.1.0",
+    "isomorphic-fetch": "^2.2.1",
+    "jQuery": "^1.7.4"
   }
 }
