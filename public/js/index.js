@@ -73,7 +73,7 @@ function extrasCountPlot(extrasData) {
 function economicalBowlersPlot(ecoBowlerData) {
   var bowlerEconomyData = Object.keys(ecoBowlerData);
   var topEconomicalBowlers = formatData(bowlerEconomyData, ecoBowlerData);
-  // Create the chart
+
   Highcharts.chart('economicalBowlers', {
     chart: {
       type: 'column'
